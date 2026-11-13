@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zain's World</title>
+<style>
+:root{--b:#173b8f;--bg:#eef2f7;--ink:#172033;--muted:#647087;--line:#dce3ee}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px Arial,sans-serif}
+header{background:var(--b);color:white;padding:18px max(18px,calc((100% - 1050px)/2));display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.brand{font-size:24px;font-weight:800}
+.tag{font-size:12px;letter-spacing:1px}
+main{max-width:1050px;margin:28px auto;padding:0 15px;min-height:78vh}
+.panel{background:white;padding:24px;border-radius:16px;box-shadow:0 8px 28px #10234b12;margin:18px 0}
+.narrow{max-width:520px;margin:42px auto}
+h1,h2,h3{color:var(--b);margin-top:0}
+p{color:var(--muted);line-height:1.5}
+label{display:block;font-weight:700;font-size:14px;margin:13px 0 6px}
+input,textarea{width:100%;padding:12px;border:1px solid #cbd4e2;border-radius:9px;font:inherit}
+textarea{min-height:150px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:4px 16px}
+.full{grid-column:1/-1}
+button{display:inline-block;background:var(--b);color:white;border:0;border-radius:9px;padding:12px 18px;font-weight:700;cursor:pointer;margin-top:14px}
+button.secondary{background:#e9eef8;color:var(--b)}
+.notice{background:#fff5d8;border-left:4px solid #e0a000;padding:13px;border-radius:7px;color:#654d10}
+.alert{padding:12px;border-radius:8px;margin:12px 0}
+.success{background:#e6f6ec;color:#176536}
+.error{background:#ffebeb;color:#a32222}
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.card,.question{border:1px solid var(--line);border-radius:12px;padding:16px}
+.hidden{display:none!important}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:10px;border-bottom:1px solid #e5e9f0}
+th{background:#f3f6fb}
+.table-wrap{overflow-x:auto}
+.option{display:flex;align-items:center;gap:9px;font-weight:400;margin:10px 0}
+.option input{width:auto}
+.score{font-size:44px;font-weight:800;color:var(--b);margin:18px 0}
+.nav{display:flex;gap:8px;flex-wrap:wrap}
+footer{text-align:center;color:#7a8496;font-size:13px;padding:20px}
+@media(max-width:620px){
+.grid{grid-template-columns:1fr}
+.full{grid-column:auto}
+.panel{padding:18px}
+header{padding:16px}
+}
+</style>
+</head>
+<body>
+
+<header>
+<div class="brand">ZAIN'S WORLD</div>
+<div class="tag">ONLINE PREPARATION & TESTING PORTAL</div>
+</header>
+
+<main>
+<div id="message"></div>
+
+<!-- STUDENT LOGIN -->
+<section id="loginPage" class="panel narrow">
+<h1>Student Login</h1>
+<p>Login with your registered username and password.</p>
+
+<form id="loginForm">
+<label>Username</label>
+<input id="loginUsername" required>
+
+<label>Password</label>
+<input id="loginPassword" type="password" required>
+
+<button>Login</button>
+</form>
+
+<p>New student? <a href="#" id="showRegister">Create an account</a></p>
+<p><a href="#" id="showAdminLogin">Admin login</a></p>
+</section>
+
+<!-- REGISTRATION -->
+<section id="registerPage" class="panel hidden">
+<h1>New Student Registration</h1>
+<p>Fill in your information to create an account.</p>
+
+<form id="registerForm" class="grid">
+
+<div>
+<label>NAME *</label>
+<input name="name" required>
+</div>
+
+<div>
+<label>FATHER'S NAME *</label>
+<input name="father" required>
+</div>
+
+<div>
+<label>CASTE</label>
+<input name="caste">
+</div>
+
+<div>
+<label>MOBILE NO *</label>
+<input name="mobile" type="tel" required>
+</div>
+
+<div>
+<label>EMAIL</label>
+<input name="email" type="email">
+</div>
+
+<div>
+<label>DISTRICT *</label>
+<input name="district" required>
+</div>
+
+<div>
+<label>USERNAME *</label>
+<input name="username" minlength="3" required>
+</div>
+
+<div>
+<label>PASSWORD * (minimum 8 characters)</label>
+<input name="password" type="password" minlength="8" required>
+</div>
+
+<div class="full">
+<label>CONFIRM PASSWORD *</label>
+<input name="confirmPassword" type="password" minlength="8" required>
+</div>
+
+<div class="full">
+<div class="notice">
+<b>IMPORTANT MESSAGE:</b>
+Save your username and password safely.
+You will need both details every time you log in.
+</div>
+</div>
+
+<div class="full">
+<button>Create Account</button>
+<button type="button" class="secondary" id="backToLogin">Back to Login</button>
+</div>
+
+</form>
+</section>
+
+<!-- ADMIN LOGIN -->
+<section id="adminLoginPage" class="panel narrow hidden">
+<h1>Admin Login</h1>
+
+<form id="adminLoginForm">
+<label>Admin Username</label>
+<input id="adminUsername" required>
+
+<label>Admin Password</label>
+<input id="adminPassword" type="password" required>
+
+<button>Admin Login</button>
+</form>
+
+<button class="secondary" id="adminBack">Back to Student Login</button>
+</section>
+
+<!-- STUDENT DASHBOARD -->
+<section id="studentPage" class="hidden">
+
+<div class="row">
+<div>
+<h1 id="welcomeStudent"></h1>
+<p>Your preparation dashboard</p>
+</div>
+<button id="studentLogout">Logout</button>
+</div>
+
+<div class="panel">
+<h2>Available Online Tests</h2>
+<div id="studentTests" class="cards"></div>
+</div>
+
+<div class="panel">
+<h2>My Test Results</h2>
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>Test</th><th>Marks</th><th>Date</th></tr>
+</thead>
+<tbody id="studentResults"></tbody>
+</table>
+</div>
+</div>
+
+</section>
+
+<!-- ONLINE TEST -->
+<section id="testPage" class="panel hidden">
+
+<div class="row">
+<div>
+<h1 id="testTitle"></h1>
+<p id="testSubject"></p>
+</div>
+<button class="secondary" id="cancelTest">Back</button>
+</div>
+
+<form id="testForm">
+<div id="testQuestions"></div>
+<button>Submit Test</button>
+</form>
+
+</section>
+
+<!-- RESULT -->
+<section id="resultPage" class="panel narrow hidden" style="text-align:center">
+
+<h1>Test Completed!</h1>
+<h2 id="resultTitle"></h2>
+
+<div class="score" id="resultScore"></div>
+
+<p>Your result has been saved in this browser.</p>
+<button id="resultBack">Back to Dashboard</button>
+
+</section>
+
+<!-- ADMIN DASHBOARD -->
+<section id="adminPage" class="hidden">
+
+<div class="row">
+<div>
+<h1>Private Admin Dashboard</h1>
+<p>Manage students, tests and results.</p>
+</div>
+<button id="adminLogout">Logout</button>
+</div>
+
+<div class="nav">
+<button id="tabStudents">Students</button>
+<button id="tabTests" class="secondary">Tests</button>
+<button id="tabResults" class="secondary">Results</button>
+<button id="tabCreate" class="secondary">Create Test</button>
+</div>
+
+<div id="adminStudents" class="panel">
+<h2>Registered Students</h2>
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>Name</th><th>Father</th><th>Caste</th>
+<th>Mobile</th><th>Email</th><th>District</th><th>Username</th>
+</tr>
+</thead>
+<tbody id="studentsTable"></tbody>
+</table>
+</div>
+</div>
+
+<div id="adminTests" class="panel hidden">
+<h2>Published Tests</h2>
+<div id="adminTestList"></div>
+</div>
+
+<div id="adminResults" class="panel hidden">
+<h2>All Student Results</h2>
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>Student</th><th>Test</th><th>Marks</th><th>Date</th></tr>
+</thead>
+<tbody id="allResults"></tbody>
+</table>
+</div>
+</div>
+
+<div id="adminCreate" class="panel hidden">
+
+<h2>Create / Upload MCQ Test</h2>
+
+
+<div class="notice">
+One MCQ per line:<br>
+Question | Option A | Option B | Option C | Option D | Correct option number<br>
+Example: Capital of Pakistan? | Karachi | Lahore | Islamabad | Quetta | 3
+</div>
+
+<form id="createTestForm">
+<label>Test Title</label>
+<input id="newTestTitle" required>
+
+<label>Subject</label>
+<input id="newTestSubject" required>
+
+<label>Questions</label>
+<textarea id="newTestQuestions" required></textarea>
+
+<button>Publish Test</button>
+</form>
+</div>
+
+</section>
+
+</main>
+
+<footer>© Zain's World</footer>
+
+<script>
+"use strict";
+
+const $ = id => document.getElementById(id);
+
+const K = {
+students:"zw_students",
+tests:"zw_tests",
+results:"zw_results"
+};
+
+const ADMIN_USER = "Zain Ul Abdin";
+const ADMIN_PASS = "zain890";
+
+let currentStudent = null;
+let activeTest = null;
+
+function read(k) {
+try {
+return JSON.parse(localStorage.getItem(k) || "[]");
+} catch(e) {
+return [];
+}
+}
+
+function write(k,v) {
+localStorage.setItem(k,JSON.stringify(v));
+}
+
+function esc(s) {
+return String(s??"").replace(/[&<>"']/g,c=>({
+"&":"&amp;",
+"<":"&lt;",
+">":"&gt;",
+'"':"&quot;",
+"'":"&#39;"
+}[c]));
+}
+
+function msg(t,type="success") {
+$("message").innerHTML =
+`<div class="alert ${type}">${esc(t)}</div>`;
+scrollTo(0,0);
+}
+
+function only(id) {
+[
+"loginPage","registerPage","adminLoginPage",
+"studentPage","testPage","resultPage","adminPage"
+].forEach(x => $(x).classList.add("hidden"));
+
+$(id).classList.remove("hidden");
+}
+
+function logout() {
+currentStudent = null;
+only("loginPage");
+}
+
+$("showRegister").onclick = e => {
+e.preventDefault();
+$("message").innerHTML = "";
+only("registerPage");
+};
+
+$("backToLogin").onclick = logout;
+$("adminBack").onclick = logout;
+
+$("showAdminLogin").onclick = e => {
+e.preventDefault();
+$("message").innerHTML = "";
+only("adminLoginPage");
+};
+
+// STUDENT REGISTRATION
+$("registerForm").onsubmit = e => {
+e.preventDefault();
+
+let d = Object.fromEntries(new FormData(e.target).entries());
+
+if(d.password !== d.confirmPassword)
+return msg("Passwords do not match.","error");
+
+if(d.password.length < 8)
+return msg("Password must be at least 8 characters.","error");
+
+let a = read(K.students);
+
+if(a.some(s => s.username.toLowerCase() === d.username.trim().toLowerCase()))
+return msg("Username already exists.","error");
+
+a.push({
+id:Date.now(),
+name:d.name.trim(),
+father:d.father.trim(),
+caste:d.caste.trim(),
+mobile:d.mobile.trim(),
+email:d.email.trim(),
+district:d.district.trim(),
+username:d.username.trim(),
+password:d.password
+});
+
+write(K.students,a);
+e.target.reset();
+logout();
+
+msg("Account created! Save your username and password safely. You need them every time you log in.");
+};
+
+// STUDENT LOGIN
+$("loginForm").onsubmit = e => {
+e.preventDefault();
+
+let u = $("loginUsername").value.trim().toLowerCase();
+let p = $("loginPassword").value;
+
+let s = read(K.students).find(x =>
+x.username.toLowerCase() === u && x.password === p
+);
+
+if(!s)
+return msg("Incorrect username or password.","error");
+
+currentStudent = s;
+studentDashboard();
+};
+
+// STUDENT DASHBOARD
+function studentDashboard() {
+only("studentPage");
+
+$("welcomeStudent").textContent =
+"Welcome, " + currentStudent.name;
+
+let tests = read(K.tests);
+
+let rs = read(K.results).filter(r =>
+r.studentId === currentStudent.id
+);
+
+$("studentTests").innerHTML = tests.length
+? tests.map(t => `
+<article class="card">
+<h3>${esc(t.title)}</h3>
+<p>${esc(t.subject)} · ${t.questions.length} MCQs</p>
+<button onclick="startTest(${t.id})">Start Test</button>
+</article>
+`).join("")
+: "<p>No tests published yet.</p>";
+
+$("studentResults").innerHTML = rs.length
+? rs.reverse().map(r => `
+<tr>
+<td>${esc(r.title)}</td>
+<td>${r.score}/${r.total}</td>
+<td>${esc(r.date)}</td>
+</tr>
+`).join("")
+: "<tr><td colspan='3'>No results yet.</td></tr>";
+}
+
+$("studentLogout").onclick = logout;
+
+// START TEST
+window.startTest = id => {
+activeTest = read(K.tests).find(t => t.id === id);
+
+if(!activeTest) return;
+
+$("testTitle").textContent = activeTest.title;
+$("testSubject").textContent = activeTest.subject;
+
+$("testQuestions").innerHTML =
+activeTest.questions.map((q,i) => `
+<div class="question">
+<b>${i+1}. ${esc(q.question)}</b>
+
+${q.options.map((o,j) => `
+<label class="option">
+<input type="radio" name="q${i}" value="${j}" required>
+${esc(o)}
+</label>
+`).join("")}
+
+</div>
+`).join("");
+
+only("testPage");
+};
+
+$("cancelTest").onclick = studentDashboard;
+
+// SUBMIT TEST
+$("testForm").onsubmit = e => {
+e.preventDefault();
+
+if(!activeTest || !currentStudent) return;
+
+let f = new FormData(e.target);
+let score = 0;
+
+activeTest.questions.forEach((q,i) => {
+if(Number(f.get("q"+i)) === q.answer) score++;
+});
+
+let r = read(K.results);
+
+r.push({
+studentId:currentStudent.id,
+testId:activeTest.id,
+title:activeTest.title,
+score,
+total:activeTest.questions.length,
+date:new Date().toLocaleString()
+});
+
+write(K.results,r);
+
+$("resultTitle").textContent = activeTest.title;
+$("resultScore").textContent =
+score + " / " + activeTest.questions.length;
+
+only("resultPage");
+};
+
+$("resultBack").onclick = studentDashboard;
+
+// ADMIN LOGIN
+$("adminLoginForm").onsubmit = e => {
+e.preventDefault();
+
+if(
+$("adminUsername").value === ADMIN_USER &&
+$("adminPassword").value === ADMIN_PASS
+) {
+only("adminPage");
+adminTab("Students");
+renderAdmin();
+} else {
+msg("Incorrect admin username or password.","error");
+}
+};
+
+$("adminLogout").onclick = logout;
+
+// ADMIN TABS
+function adminTab(t) {
+let m = {
+Students:"adminStudents",
+Tests:"adminTests",
+Results:"adminResults",
+Create:"adminCreate"
+};
+
+Object.values(m).forEach(x =>
+$(x).classList.add("hidden")
+);
+
+$(m[t]).classList.remove("hidden");
+
+["Students","Tests","Results","Create"].forEach(x =>
+$("tab"+x).classList.toggle("secondary",x !== t)
+);
+}
+
+$("tabStudents").onclick = () => adminTab("Students");
+$("tabTests").onclick = () => adminTab("Tests");
+$("tabResults").onclick = () => adminTab("Results");
+$("tabCreate").onclick = () => adminTab("Create");
+
+// SHOW ADMIN DATA
+function renderAdmin() {
+let ss = read(K.students);
+let ts = read(K.tests);
+let rs = read(K.results);
+
+$("studentsTable").innerHTML = ss.length
+? ss.map(s => `
+<tr>
+<td>${esc(s.name)}</td>
+<td>${esc(s.father)}</td>
+<td>${esc(s.caste)}</td>
+<td>${esc(s.mobile)}</td>
+<td>${esc(s.email)}</td>
+<td>${esc(s.district)}</td>
+<td>${esc(s.username)}</td>
+</tr>
+`).join("")
+: "<tr><td colspan='7'>No students registered.</td></tr>";
+
+$("adminTestList").innerHTML = ts.length
+? ts.map(t => `
+<p><b>${esc(t.title)}</b> — ${esc(t.subject)}
+(${t.questions.length} MCQs)</p>
+`).join("")
+: "<p>No tests published.</p>";
+
+$("allResults").innerHTML = rs.length
+? rs.slice().reverse().map(r => {
+let s = ss.find(x => x.id === r.studentId);
+
+return `
+<tr>
+<td>${esc(s ? s.name : "Unknown")}</td>
+<td>${esc(r.title)}</td>
+<td>${r.score}/${r.total}</td>
+<td>${esc(r.date)}</td>
+</tr>
+`;
+}).join("")
+: "<tr><td colspan='4'>No results yet.</td></tr>";
+}
+
+// CREATE TEST
+$("createTestForm").onsubmit = e => {
+e.preventDefault();
+
+let title = $("newTestTitle").value.trim();
+let subject = $("newTestSubject").value.trim();
+let raw = $("newTestQuestions").value.trim();
+let qs = [];
+
+try {
+
+raw.split(/\r?\n/).filter(x => x.trim()).forEach(line => {
+
+let p = line.split("|").map(x => x.trim());
+
+if(p.length !== 6)
+throw Error("Each MCQ needs 6 parts separated by |.");
+
+let n = Number(p[5]);
+
+if(![1,2,3,4].includes(n))
+throw Error("Correct answer must be 1, 2, 3 or 4.");
+
+qs.push({
+question:p[0],
+options:p.slice(1,5),
+answer:n-1
+});
+
+});
+
+if(!title || !subject || !qs.length)
+throw Error("Enter title, subject and at least one MCQ.");
+
+let ts = read(K.tests);
+
+ts.push({
+id:Date.now(),
+title,
+subject,
+questions:qs
+});
+
+write(K.tests,ts);
+
+e.target.reset();
+renderAdmin();
+adminTab("Tests");
+msg("Test published successfully.");
+
+} catch(err) {
+msg(err.message,"error");
+}
+};
+
+only("loginPage");
+</script>
+</body>
+</html>
